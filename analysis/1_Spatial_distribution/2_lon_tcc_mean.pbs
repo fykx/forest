@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N stat_lon_tcc
+#PBS -l nodes=2:ppn=32
+#PBS -j n
+#PBS -l walltime=27:00:00
+
+source /public/home/mfeng/anaconda3/etc/profile.d/conda.sh
+conda activate geo
+
+cd $PBS_O_WORKDIR
+
+NP=`cat $PBS_NODEFILE | wc -l`
+
+mpiexec -n $NP -hostfile $PBS_NODEFILE python 2_lon_tcc_mean.py -ta /public/home/mfeng/jwang/paper/10_ne/data/tasks/tasks_wgs.shp -i_tcc /public/home/mfeng/jwang/paper/10_ne/data/data_wgs84_tiles/result/tcc_mean -i_para /public/home/mfeng/jwang/paper/10_ne/data/data_wgs84_tiles/result/lon -mask /public/home/mfeng/jwang/paper/10_ne/data/shp/NE_WGS1984.shp -o /public/home/mfeng/jwang/paper/10_ne/result/1_Spatial_distribution/reslut/lon/1_tiles
