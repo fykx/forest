@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N tcc_mosaic
+#PBS -l nodes=1:ppn=9
+#PBS -j n
+#PBS -l walltime=27:00:00
+
+source /public/home/mfeng/anaconda3/etc/profile.d/conda.sh
+conda activate geo
+
+cd $PBS_O_WORKDIR
+
+NP=`cat $PBS_NODEFILE | wc -l`
+
+mpiexec -n $NP -hostfile $PBS_NODEFILE python 1_mosaic_clip.py -i /public/home/mfeng/jwang/paper/10_ne/data/data_albers_tiles/result/tcc -o /public/home/mfeng/jwang/paper/10_ne/data/data_albers_tiles/result/1_mosaic/1_tcc/tcc_map_list -ta /public/home/mfeng/jwang/paper/10_ne/data/tasks/tasks.shp -m /public/home/mfeng/jwang/paper/10_ne/data/shp/ne_albers.shp
