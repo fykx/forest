@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N mask
+#PBS -l nodes=2:ppn=32
+#PBS -j n
+#PBS -l walltime=27:00:00
+
+source /public/home/mfeng/anaconda3/etc/profile.d/conda.sh
+conda activate geo
+
+cd $PBS_O_WORKDIR
+
+NP=`cat $PBS_NODEFILE | wc -l`
+
+mpiexec -n $NP -hostfile $PBS_NODEFILE python 6_mask_albers_tiles.py -ta /public/home/mfeng/jwang/paper/10_ne/data/tasks/tasks.shp -i /public/home/mfeng/jwang/paper/10_ne/data/data_albers_tiles/result/tcc -o /public/home/mfeng/jwang/paper/10_ne/data/data_albers_tiles/result/mask

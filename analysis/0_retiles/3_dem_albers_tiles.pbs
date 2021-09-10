@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N dem_albers_tiles
+#PBS -l nodes=2:ppn=32
+#PBS -j n
+#PBS -l walltime=27:00:00
+
+source /public/home/mfeng/anaconda3/etc/profile.d/conda.sh
+conda activate geo
+
+cd $PBS_O_WORKDIR
+
+NP=`cat $PBS_NODEFILE | wc -l`
+
+mpiexec -n $NP -hostfile $PBS_NODEFILE python 3_dem_albers_tiles.py -ta /public/home/mfeng/jwang/paper/10_ne/data/tasks/tasks.shp -tw /public/home/mfeng/jwang/paper/data/China_dem/alos_dem/3_union/index_albers.shp -o /public/home/mfeng/jwang/paper/10_ne/data/data_albers_tiles/result/dem

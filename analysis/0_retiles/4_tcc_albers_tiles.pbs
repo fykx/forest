@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N tcc_tiles
+#PBS -l nodes=2:ppn=32
+#PBS -j n
+#PBS -l walltime=27:00:00
+
+source /public/home/mfeng/anaconda3/etc/profile.d/conda.sh
+conda activate geo
+
+cd $PBS_O_WORKDIR
+
+NP=`cat $PBS_NODEFILE | wc -l`
+
+mpiexec -n $NP -hostfile $PBS_NODEFILE python 4_tcc_albers_tiles.py -ta /public/home/mfeng/jwang/paper/10_ne/data/tasks/tasks.shp -tw /public/home/mfeng/jwang/paper/data/shp/task/tasks_albers.shp -i /public/home/mfeng/work/test/forest/pangyong/phase2/ne/forest/file66/scene02/comp02/data -o /public/home/mfeng/jwang/paper/10_ne/data/data_albers_tiles/result/tcc
